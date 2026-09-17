@@ -20,6 +20,32 @@
       font-size: clamp(4rem, 12vw, 10rem);
       font-weight: 700;
     }
+
+    /* A black cover gradually fades away to reveal the text underneath. */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: #000;
+      pointer-events: none;
+      animation: reveal 3s ease-out forwards;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body::after {
+        animation-duration: 0.01ms;
+      }
+    }
   </style>
 </head>
 <body>
