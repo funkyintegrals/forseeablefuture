@@ -41,28 +41,28 @@
     }
 
     .choice {
-      appearance: none;
-      background: transparent;
-      border: none;
+      display: block;
       color: #d8b4fe;
       font: inherit;
+      font-family: "SFMono-Regular", "JetBrains Mono", "Fira Code", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: clamp(1.1rem, 2vw, 2.1rem);
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.08em;
       line-height: 1.4;
       text-align: center;
       text-transform: lowercase;
       padding: 0.4rem 0.7rem;
-      cursor: pointer;
-      transition: transform 0.2s ease, filter 0.2s ease;
+      transition: transform 0.2s ease, filter 0.2s ease, text-shadow 0.2s ease;
       animation: float 3.2s ease-in-out infinite;
       overflow-wrap: anywhere;
       white-space: nowrap;
+      text-shadow: 0 0 8px rgba(216, 180, 254, 0.8), 0 0 18px rgba(167, 139, 250, 0.45);
+      filter: drop-shadow(0 0 10px rgba(216, 180, 254, 0.35));
     }
 
     .choice:hover,
     .choice:focus-visible {
-      filter: brightness(1.2);
+      filter: brightness(1.2) drop-shadow(0 0 14px rgba(216, 180, 254, 0.7));
       outline: none;
     }
 
@@ -73,6 +73,7 @@
     .choice-two {
       color: #a78bfa;
       animation-delay: 1.2s;
+      text-shadow: 0 0 8px rgba(167, 139, 250, 0.85), 0 0 20px rgba(167, 139, 250, 0.55);
     }
 
     @keyframes float {
@@ -133,8 +134,8 @@
   </div>
 
   <main class="paths" aria-live="polite">
-    <button class="choice choice-one" type="button">🔁._._/nircimb/</button>
-    <button class="choice choice-two" type="button">_._._/orzhupbhbhv/</button>
+    <div class="choice choice-one" aria-label="Path one">🔁._._/nircimb/</div>
+    <div class="choice choice-two" aria-label="Path two">_._._/orzhupbhbhv/</div>
   </main>
 
   <script>
