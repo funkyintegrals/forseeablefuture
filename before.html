@@ -28,33 +28,67 @@
       gap: 8vw;
       min-height: 100%;
       padding: 12vh 8vw 4vh;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      pointer-events: none;
     }
 
-    .cipher1,
-    .cipher2 {
-      flex: 1 1 0;
-      min-width: 0;
+    body.revealed .paths {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
-    .cipher1 {
-      align-self: center;
-      transform: translateY(8vh);
-      font-size: clamp(2.5rem, 7vw, 7rem);
-      overflow-wrap: anywhere;
-    }
-
-    .cipher2 {
-      color: #a78bfa;
-      font-size: clamp(1.25rem, 2.5vw, 2.5rem);
+    .choice {
+      appearance: none;
+      background: transparent;
+      border: none;
+      color: #d8b4fe;
+      font: inherit;
+      font-size: clamp(1.1rem, 2vw, 2.1rem);
+      font-weight: 600;
+      letter-spacing: 0.08em;
       line-height: 1.4;
-      font-weight: 400;
+      text-align: center;
+      text-transform: lowercase;
+      padding: 0.4rem 0.7rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      animation: float 3.2s ease-in-out infinite;
+      overflow-wrap: anywhere;
+      white-space: nowrap;
     }
 
-    body::after {
-      content: "Now you have two paths to follow.";
+    .choice:hover,
+    .choice:focus-visible {
+      filter: brightness(1.2);
+      outline: none;
+    }
+
+    .choice-one {
+      animation-delay: 0.4s;
+    }
+
+    .choice-two {
+      color: #a78bfa;
+      animation-delay: 1.2s;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-18px);
+      }
+    }
+
+    .cover {
       position: fixed;
       inset: 0;
-      z-index: 1;
+      z-index: 2;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -64,18 +98,14 @@
       color: #d8b4fe;
       font-size: clamp(1.5rem, 4vw, 4rem);
       text-align: center;
-      pointer-events: none;
-      animation: reveal 3s ease-out forwards;
+      cursor: pointer;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
-    @keyframes reveal {
-      from {
-        opacity: 1;
-      }
-
-      to {
-        opacity: 0;
-      }
+    .cover.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     @media (max-width: 700px) {
@@ -87,29 +117,41 @@
         padding: 8vh 8vw;
       }
 
-      .cipher1 {
-        transform: translateY(3vh);
-      }
-
-      .cipher2 {
+      .choice {
         align-self: flex-end;
         max-width: 85%;
-        text-align: right;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      body::after {
-        animation-duration: 0.01ms;
+        font-size: clamp(1rem, 4vw, 1.7rem);
+        white-space: normal;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="paths">
-    <div class="cipher1">🔁._._/nircimb/</div>
-    <div class="cipher2">_._._/orzhupbhbhv/</div>
+  <div id="cover" class="cover" role="button" tabindex="0" aria-label="Reveal the two paths">
+    Now you have two paths to follow.
+  </div>
+
+  <main class="paths" aria-live="polite">
+    <button class="choice choice-one" type="button">🔁._._/nircimb/</button>
+    <button class="choice choice-two" type="button">_._._/orzhupbhbhv/</button>
   </main>
+
+  <script>
+    const cover = document.getElementById('cover');
+
+    function revealChoices() {
+      document.body.classList.add('revealed');
+      cover.classList.add('hidden');
+    }
+
+    cover.addEventListener('click', revealChoices);
+    cover.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        revealChoices();
+      }
+    });
+  </script>
 </body>
 </html>
